@@ -21,3 +21,6 @@ or equal to the previously seen price, not less than.
 I got the product added to the cart and then got another error. That error was
 due to the function for getting the cart quantity was not actually returning a value
 
+Next error was with how the cart button locator was defined. I'm honestly not 
+sure what I did here other than just change the definition to look similar to
+the other button definition.
