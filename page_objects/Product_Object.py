@@ -87,7 +87,7 @@ class Product_Object():
         all_products = self.get_all_products_on_page()
         for product in all_products:
             if filter_condition.lower() in product.name.lower():
-                if product.price >= min_price:
+                if product.price <= min_price:
                     minimum_priced_product = product
                     min_price = product.price
                     min_name = product.name 
@@ -97,7 +97,7 @@ class Product_Object():
         negative="Could not obtain the cheapest product with the filter condition '%s'\nCheck the screenshots to see if there was at least one item that satisfied the filter condition."%filter_condition)
 
         return minimum_priced_product
-            
+    # This is ok        
     def click_add_product_button(self,product_name):
         "Click on the add button corresponding to the name"
         result_flag = self.click_element(self.ADD_PRODUCT_BUTTON%product_name)
@@ -119,14 +119,16 @@ class Product_Object():
         self.conditional_write(True,
         positive="The cart currently has %d items"%self.CART_QUANTITY,
         negative="")
+        return cart_quantity
 
     def add_product(self,product_name):
         "Add the lowest priced product with the filter condition in name"
         before_cart_quantity = self.get_current_cart_quantity() 
+        print(before_cart_quantity)
         result_flag = self.click_add_product_button(product_name)
         after_cart_quantity = self.get_current_cart_quantity()
+        print(after_cart_quantity)
         result_flag &= True if after_cart_quantity - before_cart_quantity == 1 else False 
-
         return result_flag
 
     @Wrapit._screenshot

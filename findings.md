@@ -13,4 +13,11 @@ I figured it was in the purchase logic so I checked the e2e_weather_shopper_conf
 file where conf is imported and found that the keys were not the same as what the
 main program was referencing. 
 
-I fixed that error and
+I fixed that error and when running the test again, I got an error about not being
+able to obtain the cheapest product. The reason there was because the logic in the 
+loop to find the lowest price was checking to see if the price was GREATER than
+or equal to the previously seen price, not less than.
+
+I got the product added to the cart and then got another error. That error was
+due to the function for getting the cart quantity was not actually returning a value
+

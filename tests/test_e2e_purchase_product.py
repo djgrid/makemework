@@ -56,6 +56,7 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
         product_filter_list = conf.PURCHASE_LOGIC[product_type]
         product_list = []
         for filter_condition in product_filter_list:
+            print("Add products loop")
             cheapest_product = test_obj.get_minimum_priced_product(filter_condition)
             product_list.append(cheapest_product)
             result_flag = test_obj.add_product(cheapest_product.name)
@@ -64,6 +65,7 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
             negative="Could not add the cheapest product '%s' with '%s'"%(cheapest_product.name,filter_condition))
 
         #Go to the cart
+        print("Going to cart")
         result_flag = test_obj.go_to_cart()
         test_obj.log_result(result_flag,
         positive="Automation is now on the cart page",
