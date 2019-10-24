@@ -149,7 +149,7 @@ class Product_Object():
         positive="Automation is on the Cart page",
         negative="Automation is not able to locate the Cart Title. Maybe it is not even on the cart page?")
         if result_flag:
-            self.switch_page("main")
+            self.switch_page("cart")
 
         return result_flag
 
@@ -159,3 +159,5 @@ class Product_Object():
         result_flag &= self.verify_cart_page()
 
         return result_flag
+
+    

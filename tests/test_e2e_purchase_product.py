@@ -73,7 +73,9 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
         level="critical")
 
         #Verify the products displayed on the cart page
+        print(len(product_list))
         result_flag = test_obj.verify_cart(product_list)
+        print("got results")
         test_obj.log_result(result_flag,
         positive="Something wrong with the cart. The log messages above will have the details",
         negative="Something wrong with the cart. The log messages above will have the details",

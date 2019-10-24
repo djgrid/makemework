@@ -13,8 +13,8 @@ class Cart_Page(Base_Page):
     CART_ROW = locators.CART_ROW
     CART_ROW_COLUMN = locators.CART_ROW_COLUMN
     CART_TOTAL = locators.CART_TOTAL
-    COL_NAME = 0
-    COL_PRICE = 1 
+    COL_NAME = 1
+    COL_PRICE = 0 
 
     def start(self):
         "Override the start method of base"
@@ -33,17 +33,18 @@ class Cart_Page(Base_Page):
 
     def get_cart_items(self):
         "Get all the cart items as a list of [name,price] lists"
+        text = ""
         cart_items = []
         row_elements = self.get_elements(self.CART_ROW)
         for index,row in enumerate(row_elements):
-            column_elements = self.get_elements(self.CART_ROW_COLUMN%(index+1))
+            column_elements = self.get_elements(self.CART_ROW_COLUMN%(index))
             item = []
             for col in column_elements:
                 text = self.get_dom_text(col)
-            item.append(text.decode('ascii'))
+            item.append(text)
             item = self.process_item(item)
             cart_items.append(item)
-
+        print("returning from get cart items")
         return cart_items
 
     def verify_cart_size(self,expected_cart,actual_cart):
@@ -58,6 +59,7 @@ class Cart_Page(Base_Page):
     
     def verify_extra_items(self,expected_cart,actual_cart):
         "Items which exist in actual but not in expected"
+        print("begin verify extra items")
         item_match_flag = False 
         for item in actual_cart:
             #Does the item exist in the product list
@@ -81,7 +83,7 @@ class Cart_Page(Base_Page):
             negative="... the expected price did not match. Expected: %d but Obtained: %d"%(expected_price,item[self.COL_PRICE]))
 
             item_match_flag &= found_flag and price_match_flag
-        
+        print("ending verify extra items")
         return item_match_flag
 
     def verify_missing_item(self,expected_cart,actual_cart):
@@ -135,12 +137,15 @@ class Cart_Page(Base_Page):
         return result_flag
 
     def verify_cart(self,expected_cart):
-        "Verify the (name,price) of items in cart and the total"
+        "Verify the (name,price) of items in cart and the total" 
+        print("beginning of verify_cart")
         actual_cart = self.get_cart_items()
+        print("actual cart")
+        print(len(actual_cart))
         result_flag = self.verify_cart_size(expected_cart,actual_cart)
         result_flag &= self.verify_extra_items(expected_cart,actual_cart)
         if result_flag is False:
             result_flag &= self.verify_missing_item(expected_cart,actual_cart)
         result_flag &= self.verify_cart_total(expected_cart)
-
+        print("did we even reach here")
         return result_flag 
